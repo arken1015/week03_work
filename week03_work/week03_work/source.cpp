@@ -5,6 +5,8 @@
 #include <chrono>         // std::chrono::seconds
 #include <math.h>
 
+#define PI 3.14159
+
 const int width = 640;
 const int height = 480;
 
@@ -76,6 +78,7 @@ void drawTriangle(const int& x0, const int& x1, const int& y0, const int& y1, co
 	drawLine(half_x, y1, x1, y0, red, green, blue);
 }
 
+// center position = (x,y)
 void drawCircle(const int& x, const int& y, const int& r, const float& red, const float& green, const float& blue)
 {
 	float r_square = r * r;
@@ -96,6 +99,40 @@ void drawCircle(const int& x, const int& y, const int& r, const float& red, cons
 		drawPixel(-1 * sqrt(r_square - i *i) + x, i + y, red, green, blue);
 	}
 }
+
+//Doesn't work
+/*
+void drawPentagon(const int& x, const int& y, const int& r, const float& red, const float& green, const float& blue)
+{
+	int point[5][2];
+	point[0][0] = x; point[0][1] = r;
+	
+	int temp_x = 0; int temp_y = 0;
+	temp_x = cos(PI / 5) * r;
+	temp_y = sin(PI / 5) * r;
+	point[1][0] = temp_x + x;
+	point[1][1] = temp_y + y;
+	point[4][0] = x - temp_x;
+	point[4][1] = temp_y + y;
+
+	temp_x = sin(PI * 2 / 5) * r;
+	temp_y = cos(PI * 2 / 5) * r;
+	point[2][0] = temp_x + x;
+	point[2][1] = y - temp_y;
+	point[3][0] = x - temp_x;
+	point[3][1] = y - temp_y;
+
+	drawLine(point[0][0], point[0][1], point[1][0], point[1][1], 0.0f, 0.0f, 0.0f);
+	drawLine(point[2][0], point[2][1], point[1][0], point[1][1], 0.0f, 0.0f, 0.0f);
+	drawLine(point[4][0], point[4][1], point[0][0], point[0][1], 0.0f, 0.0f, 0.0f);
+	drawLine(point[4][0], point[4][1], point[3][0], point[3][1], 0.0f, 0.0f, 0.0f);
+
+	for (int x = point[3][0]; x <= point[2][0]; x++)
+	{
+		drawPixel(x, point[2][1], red, green, blue);
+	}
+}
+*/
 
 void drawOnPixelBuffer()
 {
@@ -127,6 +164,9 @@ void drawOnPixelBuffer()
 	drawTriangle(80, 160, 160, 240, 0.0f, 0.0f, 0.0f);
 
 	drawCircle(500, 100, 60, 0.0f, 0.0f, 0.0f);
+
+	//drawPentagon(360, 120, 60, 0.0f, 0.0f, 0.0f);
+	//Didn't work with Pentagon
 
 	//TODO: try moving object
 
@@ -177,7 +217,7 @@ int main(void)
 
 	glfwTerminate();
 
-	delete[] pixels; // or you may reuse pixels array 
+	delete[] pixels; // or you may reuse pixels array
 
 	return 0;
 }
